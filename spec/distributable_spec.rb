@@ -9,23 +9,65 @@ describe Distributable do
   describe '#distribute_across' do
     before { distributable.distribute_across(recipients) }
 
-    context "default behavior" do
-      let(:recipients) { [0] * 10 }
+    let(:recipients) { [0] * 10 }
 
-      context "when the distributable divides evenly into the recipients" do
-        let(:distributable) { 100 }
+    context "when the distributable divides evenly into the recipients" do
+      let(:distributable) { 100 }
 
-        it "is to divide the distributable evenly across the recipients" do
-          expect(recipients).to eq([10] * 10)
-        end
+      it "is to divide the distributable evenly across the recipients" do
+        expect(recipients).to eq([10] * 10)
       end
+    end
 
-      context "when the distributable does not divide unevenly into the recipients" do
-        let(:distributable) { 101 }
+    context "when the distributable does not divide unevenly into the recipients" do
+      let(:distributable) { 101 }
 
-        it "is to divide the distributable as evenly as possible across the recipients" do
-          expect(recipients).to eq([11] + ([10] * 9))
-        end
+      it "is to divide the distributable as evenly as possible across the recipients" do
+        expect(recipients).to eq([11] + ([10] * 9))
+      end
+    end
+  end
+
+  describe '#distribute_evenly_across' do
+    before { distributable.distribute_evenly_across(recipients) }
+
+    let(:recipients) { [0] * 10 }
+
+    context "when the distributable divides evenly into the recipients" do
+      let(:distributable) { 100 }
+
+      it "is to divide the distributable evenly across the recipients" do
+        expect(recipients).to eq([10] * 10)
+      end
+    end
+
+    context "when the distributable does not divide unevenly into the recipients" do
+      let(:distributable) { 101 }
+
+      it "is to divide the distributable as evenly as possible across the recipients" do
+        expect(recipients).to eq([11] + ([10] * 9))
+      end
+    end
+  end
+
+  describe '#distribute_proportionally_across' do
+    before { distributable.distribute_proportionally_across(recipients) }
+
+    context "when the distributable divides evenly into the recipients" do
+      let(:recipients)    { [1, 2, 3, 4] }
+      let(:distributable) { 10 }
+
+      it "is to divide the distributable evenly across the recipients" do
+        expect(recipients).to eq [2, 4, 6, 8]
+      end
+    end
+
+    context "when the distributable does not divide unevenly into the recipients" do
+      let(:recipients)    { [1, 2, 3, 4] }
+      let(:distributable) { 11 }
+
+      it "is to divide the distributable as evenly as possible across the recipients" do
+        expect(recipients).to eq [2, 4, 6, 9]
       end
     end
   end

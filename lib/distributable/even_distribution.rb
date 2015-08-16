@@ -1,5 +1,5 @@
 module Distributable
-  class Distribution
+  class EvenDistribution
     def initialize(distributable, recipients)
       @distributable = distributable
       @recipients    = recipients
