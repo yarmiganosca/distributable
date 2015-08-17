@@ -6,23 +6,11 @@ module Distributable
     end
 
     def call
-      @recipients.each_index do |index|
-        @recipients[index] += quotient
+      quotient, remainder = @distributable.divmod(@recipients.size)
+
+      @recipients.map.with_index do |recipients, index|
+        quotient + (index < remainder ? 1 : 0)
       end
-
-      remainder.times do |index|
-        @recipients[index] += 1
-      end
-    end
-
-    private
-
-    def quotient
-      @distributable / @recipients.size
-    end
-
-    def remainder
-      @distributable % @recipients.size
     end
   end
 end

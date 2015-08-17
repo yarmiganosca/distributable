@@ -7,7 +7,7 @@ describe Distributable do
   end
 
   describe '#distribute_across' do
-    before { distributable.distribute_across(recipients) }
+    subject(:distribution) { distributable.distribute_across(recipients) }
 
     let(:recipients) { [0] * 10 }
 
@@ -15,7 +15,7 @@ describe Distributable do
       let(:distributable) { 100 }
 
       it "is to divide the distributable evenly across the recipients" do
-        expect(recipients).to eq([10] * 10)
+        expect(distribution).to eq([10] * 10)
       end
     end
 
@@ -23,13 +23,13 @@ describe Distributable do
       let(:distributable) { 101 }
 
       it "is to divide the distributable as evenly as possible across the recipients" do
-        expect(recipients).to eq([11] + ([10] * 9))
+        expect(distribution).to eq([11] + ([10] * 9))
       end
     end
   end
 
   describe '#distribute_evenly_across' do
-    before { distributable.distribute_evenly_across(recipients) }
+    subject(:distribution) { distributable.distribute_evenly_across(recipients) }
 
     let(:recipients) { [0] * 10 }
 
@@ -37,7 +37,7 @@ describe Distributable do
       let(:distributable) { 100 }
 
       it "is to divide the distributable evenly across the recipients" do
-        expect(recipients).to eq([10] * 10)
+        expect(distribution).to eq([10] * 10)
       end
     end
 
@@ -45,20 +45,20 @@ describe Distributable do
       let(:distributable) { 101 }
 
       it "is to divide the distributable as evenly as possible across the recipients" do
-        expect(recipients).to eq([11] + ([10] * 9))
+        expect(distribution).to eq([11] + ([10] * 9))
       end
     end
   end
 
   describe '#distribute_proportionally_across' do
-    before { distributable.distribute_proportionally_across(recipients) }
+    subject(:distribution) { distributable.distribute_proportionally_across(recipients) }
 
     context "when the distributable divides evenly into the recipients" do
       let(:recipients)    { [1, 2, 3, 4] }
       let(:distributable) { 10 }
 
       it "is to divide the distributable evenly across the recipients" do
-        expect(recipients).to eq [2, 4, 6, 8]
+        expect(distribution).to eq [2, 4, 6, 8]
       end
     end
 
@@ -67,7 +67,7 @@ describe Distributable do
       let(:distributable) { 11 }
 
       it "is to divide the distributable as evenly as possible across the recipients" do
-        expect(recipients).to eq [2, 4, 6, 9]
+        expect(distribution).to eq [2, 4, 6, 9]
       end
     end
   end

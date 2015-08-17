@@ -4,18 +4,17 @@ module Distributable
       @distributable = distributable
       @recipients    = recipients
 
-      @multiplier = multiplier
-      @remainder  = remainder
+      @multiplier, @remainder = (@distributable + recipients_sum).divmod(recipients_sum)
     end
 
     def call
-      @recipients.each_index do |index|
-        @recipients[index] *= @multiplier
-      end
+      distribution = @recipients.map { |recipient| recipient * @multiplier }
 
       @remainder.times do
-        @recipients[index_of_least_disturbance] += 1
+        distribution[index_of_least_disturbance] += 1
       end
+
+      distribution
     end
 
     private
@@ -28,14 +27,6 @@ module Distributable
       @recipients.map do |recipient|
         ((recipient + 1) / (recipients_sum + 1).to_f) - (recipient / recipients_sum.to_f)
       end
-    end
-
-    def multiplier
-      (@distributable + recipients_sum) / recipients_sum
-    end
-
-    def remainder
-      (@distributable + recipients_sum) % recipients_sum
     end
 
     def recipients_sum

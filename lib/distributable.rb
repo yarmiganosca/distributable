@@ -4,9 +4,9 @@ require 'distributable/proportional_distribution'
 
 module Distributable
   def distribute_evenly_across(recipients)
-    EvenDistribution
-      .new(self, recipients)
-      .call
+    distribution = EvenDistribution.new(self, recipients)
+
+    distribution.call
   end
 
   alias_method :distribute_across, :distribute_evenly_across
